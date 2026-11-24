@@ -1,0 +1,3 @@
+# Normalize line endings so contributors on Windows and macOS/Linux produce
+# the same diffs.
+* text=auto
