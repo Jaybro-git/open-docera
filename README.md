@@ -18,6 +18,8 @@ Write pages in MDX, set your brand in one config file, or let an AI assistant do
 
 ---
 
+![The default OpenDocera template in dark mode, showing the sidebar, the gradient page header, a titled code block and the table of contents](.github/assets/opendocera-preview.png)
+
 ## Overview
 
 OpenDocera is a complete documentation site you can copy and make your own. It
@@ -45,7 +47,7 @@ meant to be replaced.
 - **Search.** A ⌘K / Ctrl+K command palette over page titles, headings and body text, built at compile time with no external service.
 - **Table of contents.** Generated from `##` headings, with scroll-spy highlighting.
 - **Theming from four colors.** Every accent in light and dark mode is derived from one palette with `color-mix()`. Warnings stay yellow whatever the palette.
-- **Page-header gradient.** A WebGL grain gradient (React Bits Grainient) with an optional cloud layer, configured in the same file.
+- **Page-header gradient.** A dependency-free WebGL grain gradient with an optional cloud layer, configured in the same file, with a CSS fallback.
 - **Components with no imports.** Callouts, steps, cards, code tabs, badges and status labels, plus titled code blocks with syntax highlighting and a copy button.
 - **Page actions.** Copy any page as Markdown, or open it in ChatGPT, Claude or Gemini.
 - **Built for AI assistants.** An `AGENTS.md` guide, Claude Code skills, and `/llms.txt` and `/llms-full.txt` routes.
@@ -208,7 +210,7 @@ public/                logo and images
 app/docs/              docs shell: header, sidebar, search, TOC, page route
 app/docs/components/   page actions, footer and MDX components
 app/globals.css        design tokens derived from the palette
-components/            theme toggle, Grainient and UI primitives
+components/            theme toggle, grain gradient and UI primitives
 scripts/               builds the sidebar, search and TOC index from MDX
 ```
 
@@ -217,8 +219,7 @@ scripts/               builds the sidebar, search and TOC index from MDX
 [Next.js 16](https://nextjs.org) (App Router, Turbopack) ·
 [MDX](https://mdxjs.com) · [Tailwind CSS 4](https://tailwindcss.com) ·
 [Shiki](https://shiki.style) via rehype-pretty-code ·
-[cmdk](https://cmdk.paco.me) · [Base UI](https://base-ui.com) ·
-[ogl](https://github.com/oframe/ogl)
+[cmdk](https://cmdk.paco.me) · [Base UI](https://base-ui.com)
 
 ## License
 

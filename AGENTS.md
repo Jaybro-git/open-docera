@@ -121,8 +121,9 @@ backticks, or escape them as `\{` and `&lt;`. HTML comments do not work; use
   `bright`, `brand` and `deep`. `contrast` and `saturation` tone it overall.
   `clouds` (`amount`, `scale`, `seed`) adds soft cloudy patches; leave it out
   for plain smooth bands. `dark` can override the colors and `contrast` in
-  dark mode. The component is React Bits' Grainient (`components/Grainient.tsx`,
-  WebGL via `ogl`) with the cloud option added.
+  dark mode. The component is `components/grain-gradient.tsx`, a static
+  WebGL shader with no dependencies; it draws once per resize or theme change
+  and falls back to a CSS gradient when WebGL is unavailable.
 
 Warnings stay yellow whatever the palette, so they never look like notes.
 

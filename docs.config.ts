@@ -59,7 +59,7 @@ export type DocsConfig = {
       saturation?: number;
       /**
        * Soft cloudy patches instead of smooth bands. `amount` 0 (or leaving
-       * this out) gives the plain React Bits bands; `scale` sets the cloud
+       * this out) gives plain smooth bands; `scale` sets the cloud
        * size (higher = smaller); `seed` picks a different pattern.
        */
       clouds?: { amount: number; scale?: number; seed?: number };
