@@ -1,0 +1,38 @@
+---
+title: CLI
+description: Commands, flags and exit codes for the acme command-line tool.
+group: Reference
+order: 1
+---
+
+## The acme command
+
+<Lead>
+  The `acme` CLI wraps every project task. Run `acme --help` to list commands,
+  or `acme <command> --help` for one command's flags.
+</Lead>
+
+## Commands
+
+| Command | Description |
+|---|---|
+| `acme init` | Scaffold a new project in the current folder |
+| `acme dev` | Start the dev server with live reload |
+| `acme build` | Run the pipeline and write output to `outDir` |
+| `acme deploy` | Ship the latest build to a target |
+
+## Global flags
+
+| Flag | Description |
+|---|---|
+| `--config <path>` | Use a config file other than `acme.config.json` |
+| `--verbose` | Print every pipeline step as it runs |
+| `--quiet` | Print errors only |
+
+## Exit codes
+
+| Code | Meaning |
+|---|---|
+| `0` | Success |
+| `1` | Build or deploy failed |
+| `2` | Invalid config or flags |
