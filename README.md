@@ -1,53 +1,109 @@
+<div align="center">
+
+<img src="public/OpenDocera.svg" alt="OpenDocera logo" width="96" />
+
 # OpenDocera
 
-An open-source documentation site template built on Next.js 16 and MDX. It
-has sidebar navigation, ⌘K search, an "On this page" table of contents, light
-and dark themes and a grain-gradient page header.
+**An open-source documentation site template for Next.js and MDX.**
+Write pages in MDX, set your brand in one config file, or let an AI assistant do both.
 
-You can set it up without touching component code. Pages are MDX files with
-a few lines of frontmatter, and everything brand-specific lives in one config
-file. That makes it easy to hand to an AI assistant: "make docs for my
-project" is a request it can complete on its own.
+[![License: MIT](https://img.shields.io/badge/license-MIT-B4512F?style=flat-square)](LICENSE)
+[![Next.js 16](https://img.shields.io/badge/Next.js-16-3A2116?style=flat-square)](https://nextjs.org)
+[![MDX](https://img.shields.io/badge/MDX-3-3A2116?style=flat-square)](https://mdxjs.com)
+[![Node.js 20.9+](https://img.shields.io/badge/node-%E2%89%A520.9-3A2116?style=flat-square)](https://nodejs.org)
 
-The pages in `content/docs/` describe a fictional product called **Acme**.
-They are placeholders that demonstrate every building block. Replace them
-with your own.
+[Quick start](#quick-start) · [Built with OpenDocera](#built-with-opendocera) · [Set it up with AI](#set-it-up-with-ai) · [Configuration](#configuration) · [Deploy](#deploy)
+
+</div>
+
+---
+
+## Overview
+
+OpenDocera is a complete documentation site you can copy and make your own. It
+includes sidebar navigation, full-text search, an "On this page" table of
+contents, light and dark themes, and a grain-gradient page header. None of it
+needs to be touched to get started.
+
+Two places hold everything you customize:
+
+| What | Where |
+|---|---|
+| Pages | `content/docs/*.mdx`, one file per page |
+| Name, logo, links, colors, gradient | `docs.config.ts` |
+
+The sidebar, search index, table of contents, sitemap and `/llms.txt` are all
+generated from your MDX files. There is no page list to maintain by hand.
+
+The pages shipped in `content/docs/` describe a fictional product called
+**Acme**. They are placeholders that demonstrate every building block and are
+meant to be replaced.
+
+## Features
+
+- **MDX pages with frontmatter.** Title, description, sidebar group, order, tag and draft status. Invalid frontmatter fails the build with the file name and the problem.
+- **Search.** A ⌘K / Ctrl+K command palette over page titles, headings and body text, built at compile time with no external service.
+- **Table of contents.** Generated from `##` headings, with scroll-spy highlighting.
+- **Theming from four colors.** Every accent in light and dark mode is derived from one palette with `color-mix()`. Warnings stay yellow whatever the palette.
+- **Page-header gradient.** A WebGL grain gradient (React Bits Grainient) with an optional cloud layer, configured in the same file.
+- **Components with no imports.** Callouts, steps, cards, code tabs, badges and status labels, plus titled code blocks with syntax highlighting and a copy button.
+- **Page actions.** Copy any page as Markdown, or open it in ChatGPT, Claude or Gemini.
+- **Built for AI assistants.** An `AGENTS.md` guide, Claude Code skills, and `/llms.txt` and `/llms-full.txt` routes.
+- **Static and SEO-ready.** Every page is prerendered, with canonical URLs, Open Graph tags, a sitemap and robots.txt.
+
+## Built with OpenDocera
+
+### AudioLens
+
+[**audiolens-xi.vercel.app/docs**](https://audiolens-xi.vercel.app/docs/intro)
+
+AudioLens is an interpretability and debugging workbench for speech models.
+OpenDocera was extracted from its documentation. The site runs the same layout
+with its own palette, logo and gradient, all set in `docs.config.ts`.
+
+[![AudioLens documentation built with OpenDocera](.github/assets/audiolens-docs.png)](https://audiolens-xi.vercel.app/docs/intro)
+
+Using OpenDocera for your project? Open a pull request to add it here.
 
 ## Quick start
 
-1. On GitHub, click **Use this template** (or clone the repo).
-2. Install and run:
+Requires Node.js 20.9 or later.
+
+1. Click **Use this template** on GitHub, or clone the repository.
+2. Install dependencies and start the dev server:
 
    ```bash
    npm install
    npm run dev
    ```
 
-3. Open http://localhost:3000.
-
-Node.js 20.9 or later is required.
+3. Open [http://localhost:3000](http://localhost:3000).
 
 ## Set it up with AI
 
-The repo includes instructions for AI coding assistants:
+The repository includes instructions that AI coding assistants pick up
+automatically:
 
-- `AGENTS.md`: the page format, components, config and commands. Claude
-  Code, Codex, Cursor, Copilot and other agents read it automatically.
-- `.claude/skills/`: ready-made workflows for Claude Code:
-  - `/import-docs`: turn your README, Markdown folder or codebase into pages
-  - `/add-page`: write a new page in the right group
-  - `/rebrand`: set your name, logo, links and colors
+| File | Purpose |
+|---|---|
+| `AGENTS.md` | Page format, components, configuration and commands. Read by Claude Code, Codex, Cursor, Copilot and other agents. |
+| `.claude/skills/import-docs` | Turns a README, a Markdown folder, a wiki export or a codebase into pages |
+| `.claude/skills/add-page` | Writes a new page in the right group and verifies it builds |
+| `.claude/skills/rebrand` | Sets the name, logo, links, colors and gradient |
 
 Example prompts:
 
-> Make docs for this project from my README and the `src/` folder.
+```text
+Make docs for this project from my README and the src/ folder.
+```
 
-> Rebrand the site for "Nimbus", logo is `nimbus.svg`, brand color #2F6FED.
+```text
+Rebrand the site for Nimbus. The logo is nimbus.svg and the brand color is #2F6FED.
+```
 
-> Add a page explaining how to deploy to Vercel, under Guides.
-
-The deployed site also serves `/llms.txt` and `/llms-full.txt`, so AI tools
-can read your documentation.
+```text
+Add a page under Guides explaining how to deploy to Vercel.
+```
 
 ## Set it up by hand
 
@@ -68,59 +124,102 @@ order: 4
 Content starts at `##`. The page heading comes from `title`.
 ```
 
-It appears in the sidebar, search and table of contents automatically. See
-`/docs/components` for every component you can use, and `AGENTS.md` for all
-frontmatter options.
+The file name becomes the URL (`/docs/my-page`). The page appears in the
+sidebar, search and table of contents on the next `npm run dev` or
+`npm run build`.
 
-### Brand it
+| Frontmatter key | Required | Meaning |
+|---|---|---|
+| `title` | yes | Sidebar label and page heading |
+| `description` | yes | Line under the heading; also the search and SEO summary |
+| `group` | yes | Sidebar group, matching a label in `docsConfig.groups` |
+| `order` | no | Position inside the group, lower first |
+| `tag` | no | Small chip after the sidebar label, such as `new` or `beta` |
+| `draft` | no | `true` hides the page everywhere |
 
-Edit `docs.config.ts`:
+### Components
 
-| Setting | What it controls |
+Available in every MDX file without imports. The `/docs/components` page shows
+each one rendered.
+
+| Component | Use |
 |---|---|
-| `name`, `title`, `description` | Header name, page titles, SEO |
-| `logo` | Square image in `public/` |
-| `links`, `cta` | Header links and the accent button |
-| `footer` | Text under every page |
-| `groups` | Sidebar group order |
-| `theme.palette` | Four colors that every accent in light and dark mode is derived from |
-| `theme.grainient` | Colors of the gradient behind page titles |
+| `<Lead>` | Larger opening paragraph |
+| `<Badges>` | Small chips for version, license or stack |
+| `<Callout>` | Boxed note, with `tone="note"` or `tone="warn"` |
+| `<Steps>` / `<Step>` | Numbered procedure |
+| `<CardGrid>` / `<Card>` | Grid of cards, linked when given `href` |
+| `<CodeTabs>` | Several code blocks under tabs |
+| `<Status>` | Muted status text for tables |
 
-The default theme is a warm terracotta palette:
+## Configuration
+
+All branding lives in `docs.config.ts`:
+
+| Setting | Controls |
+|---|---|
+| `name`, `title`, `description` | Header name, page titles, SEO and `/llms.txt` summary |
+| `logo` | Square image in `public/`, shown at 28×28 |
+| `links`, `cta` | Header links and the accent button (`cta: null` hides it) |
+| `footer` | Text strip under every page |
+| `groups` | Sidebar group order |
+| `theme.palette` | Four colors that every accent is derived from |
+| `theme.grainient` | Gradient behind page titles, with optional clouds and a dark-mode override |
+
+The default palette is a warm terracotta:
 
 ```ts
-palette: { deep: "#3A2116", brand: "#B4512F", bright: "#D97757", neutral: "#8A7A68" }
+palette: {
+  deep: "#3A2116",    // darkest shade: hover text, callout titles
+  brand: "#B4512F",   // main accent: buttons, links on white
+  bright: "#D97757",  // lighter accent: links in dark mode
+  neutral: "#8A7A68", // muted companion: soft background washes
+}
 ```
+
+`brand` needs at least 4.5:1 contrast against white, and `bright` needs to stay
+readable on the dark background.
 
 ## Commands
 
-| Command | What it does |
+| Command | Description |
 |---|---|
-| `npm run dev` | Start the dev server |
+| `npm run dev` | Regenerate the index and start the dev server |
 | `npm run build` | Production build. Fails with a clear message on invalid frontmatter |
 | `npm run start` | Serve the production build |
 | `npm run docs:index` | Regenerate the sidebar, search and TOC index only |
-| `npm run lint` | ESLint |
+| `npm run lint` | Run ESLint |
 
 ## Deploy
 
-Any host that runs Next.js works. On Vercel, import the repo and deploy; no
-settings are needed. For a custom domain, set `NEXT_PUBLIC_SITE_URL` (for
-example `https://docs.example.com`) so canonical URLs, the sitemap and
-`llms.txt` use it.
+OpenDocera runs on any host that supports Next.js. On Vercel, import the
+repository and deploy; no settings are required.
+
+For a custom domain, set `NEXT_PUBLIC_SITE_URL` (for example
+`https://docs.example.com`) so canonical URLs, the sitemap and `/llms.txt` use
+it.
 
 ## Project structure
 
-```
+```text
 content/docs/          your pages (.mdx)
-docs.config.ts         name, logo, links, colors
+docs.config.ts         name, logo, links, colors, gradient
 public/                logo and images
-app/docs/              docs shell: header, sidebar, search, TOC, page layout
-app/docs/components/   MDX components (Callout, Steps, Cards, ...)
-app/globals.css        design tokens, derived from the palette
-scripts/               builds the sidebar/search index from the MDX files
+app/docs/              docs shell: header, sidebar, search, TOC, page route
+app/docs/components/   page actions, footer and MDX components
+app/globals.css        design tokens derived from the palette
+components/            theme toggle, Grainient and UI primitives
+scripts/               builds the sidebar, search and TOC index from MDX
 ```
+
+## Tech stack
+
+[Next.js 16](https://nextjs.org) (App Router, Turbopack) ·
+[MDX](https://mdxjs.com) · [Tailwind CSS 4](https://tailwindcss.com) ·
+[Shiki](https://shiki.style) via rehype-pretty-code ·
+[cmdk](https://cmdk.paco.me) · [Base UI](https://base-ui.com) ·
+[ogl](https://github.com/oframe/ogl)
 
 ## License
 
-MIT
+[MIT](LICENSE) © OpenDocera contributors
