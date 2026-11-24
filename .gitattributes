@@ -1,3 +1,8 @@
 # Normalize line endings so contributors on Windows and macOS/Linux produce
 # the same diffs.
 * text=auto
+
+# Repo-only files: left out of the tarballs that `npm create opendocera`,
+# `create-next-app --example` and giget download, so new sites never inherit
+# this repo's CODEOWNERS or README screenshots.
+.github export-ignore

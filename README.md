@@ -75,21 +75,40 @@ Using OpenDocera for your project? Open a pull request to add it here.
 
 Requires Node.js 20.9 or later.
 
-1. Click **Use this template** on [GitHub](https://github.com/Jaybro-git/open-docera), or clone the repository:
+### Create a new site (recommended)
 
-   ```bash
-   git clone https://github.com/Jaybro-git/open-docera.git my-docs
-   cd my-docs
-   ```
+```bash
+npm create opendocera@latest my-docs
+```
 
-2. Install dependencies and start the dev server:
+The CLI asks for your product name, brand color and whether to keep the
+sample pages. It writes `docs.config.ts`, derives the full palette from your
+color, installs dependencies and initializes git. Then:
 
-   ```bash
-   npm install
-   npm run dev
-   ```
+```bash
+cd my-docs
+npm run dev
+```
 
-3. Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000).
+
+pnpm, Yarn and Bun work too: `pnpm create opendocera`, `yarn create opendocera`,
+`bun create opendocera`.
+
+### Other ways to start
+
+| Method | Command or action |
+|---|---|
+| GitHub template | Click **Use this template** on [the repository](https://github.com/Jaybro-git/open-docera) |
+| create-next-app | `npx create-next-app@latest my-docs --example https://github.com/Jaybro-git/open-docera` |
+| Plain download | `npx giget@latest gh:Jaybro-git/open-docera my-docs` |
+| Deploy first | Use the button below to clone into your GitHub and deploy on Vercel |
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FJaybro-git%2Fopen-docera&project-name=my-docs&repository-name=my-docs)
+
+These copy the template as-is, so run `npm install` and edit `docs.config.ts`
+yourself. If you used **Use this template**, also delete the `.github/` folder:
+it holds this repository's CODEOWNERS file and README screenshots.
 
 ## Set it up with AI
 
