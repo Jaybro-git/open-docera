@@ -18,7 +18,11 @@ Write pages in MDX, set your brand in one config file, or let an AI assistant do
 
 ---
 
-![The default OpenDocera template in dark mode, showing the sidebar, the gradient page header, a titled code block and the table of contents](.github/assets/opendocera-preview.png)
+<p align="center">
+  <img src=".github/assets/opendocera-light.png" alt="The default OpenDocera template in light mode, showing the sidebar, the gradient page header, a callout and the table of contents" width="49%" />
+  <img src=".github/assets/opendocera-dark.png" alt="The default OpenDocera template in dark mode, showing the sidebar, the gradient page header, a callout and the table of contents" width="49%" />
+</p>
+<p align="center"><sub>The default template in light and dark mode.</sub></p>
 
 ## Overview
 
@@ -59,9 +63,9 @@ meant to be replaced.
 
 [**audiolens-xi.vercel.app/docs**](https://audiolens-xi.vercel.app/docs/intro)
 
-AudioLens is an interpretability and debugging workbench for speech models.
-OpenDocera was extracted from its documentation. The site runs the same layout
-with its own palette, logo and gradient, all set in `docs.config.ts`.
+AudioLens is an interpretability and debugging workbench for speech models. Its
+documentation runs on OpenDocera, with its own palette, logo and gradient, all
+set in `docs.config.ts`.
 
 [![AudioLens documentation built with OpenDocera](.github/assets/audiolens-docs.png)](https://audiolens-xi.vercel.app/docs/intro)
 
@@ -71,7 +75,13 @@ Using OpenDocera for your project? Open a pull request to add it here.
 
 Requires Node.js 20.9 or later.
 
-1. Click **Use this template** on GitHub, or clone the repository.
+1. Click **Use this template** on [GitHub](https://github.com/Jaybro-git/open-docera), or clone the repository:
+
+   ```bash
+   git clone https://github.com/Jaybro-git/open-docera.git my-docs
+   cd my-docs
+   ```
+
 2. Install dependencies and start the dev server:
 
    ```bash

@@ -79,7 +79,7 @@ export const docsConfig: DocsConfig = {
   },
   links: [
     { label: "Home", href: "/", external: false },
-    { label: "GitHub", href: "https://github.com/your-org/your-repo", external: true },
+    { label: "GitHub", href: "https://github.com/Jaybro-git/open-docera", external: true },
   ],
   cta: { label: "Get started", href: "/docs/quickstart" },
   groups: ["Get started", "Guides", "Reference"],
