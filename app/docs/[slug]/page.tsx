@@ -5,7 +5,7 @@ import { SITE_URL } from "@/lib/site";
 import { docsHref, findNavGroup, findNavItem, flatNav } from "../docs-data";
 import { DocsPageActions } from "../components/docs-page-actions";
 import { DocsPageFooter } from "../components/docs-page-footer";
-import { ThemedGrainient } from "@/components/grainient-theme";
+import { ThemedGrainGradient } from "@/components/grain-gradient";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -69,37 +69,8 @@ export default async function DocsSlugPage({ params }: Props) {
 
       <div className="relative overflow-hidden rounded-2xl border border-od-accent-line">
         <div className="absolute inset-0 z-0" aria-hidden="true">
-          {/* Colors come from docs.config.ts (theme.grainient); the shape
-              and grain settings below are the template's look. */}
-          <ThemedGrainient
-            className="h-full w-full"
-            color1={grainient.color1}
-            color2={grainient.color2}
-            color3={grainient.color3}
-            dark={grainient.dark}
-            timeSpeed={0}
-            colorBalance={-0.15}
-            warpStrength={1}
-            warpFrequency={5}
-            warpSpeed={2}
-            warpAmplitude={50}
-            blendAngle={180}
-            blendSoftness={0.05}
-            rotationAmount={180}
-            noiseScale={2}
-            grainAmount={0.1}
-            grainScale={2}
-            grainAnimated={false}
-            contrast={grainient.contrast ?? 1.5}
-            gamma={1}
-            saturation={grainient.saturation ?? 1}
-            centerX={0}
-            centerY={0}
-            zoom={1.05}
-            cloudAmount={grainient.clouds?.amount ?? 0}
-            cloudScale={grainient.clouds?.scale}
-            cloudSeed={grainient.clouds?.seed}
-          />
+          {/* Colors, contrast and clouds come from docs.config.ts (theme.grainient). */}
+          <ThemedGrainGradient className="h-full w-full" config={grainient} />
         </div>
         <div className="relative z-10 px-5 pt-9 pb-6 sm:px-8 sm:pt-11">
           <h1
