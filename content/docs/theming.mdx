@@ -1,0 +1,46 @@
+---
+title: Theming
+description: Change colors, fonts and spacing without touching component code.
+group: Guides
+order: 2
+---
+
+## Theme tokens
+
+<Lead>
+  Acme widgets read their colors, fonts and spacing from a small set of
+  tokens. Change a token once and every widget picks it up.
+</Lead>
+
+<Badges items={["CSS variables", "Light & dark", "No rebuild"]} />
+
+## Built-in tokens
+
+| Token | Light | Dark |
+|---|---|---|
+| `--acme-bg` | `#ffffff` | `#0b0d12` |
+| `--acme-fg` | `#111318` | `#e7e9ee` |
+| `--acme-accent` | `#1e4fd8` | `#6b95ff` |
+
+## Overriding tokens
+
+<CodeTabs labels={["css", "config"]}>
+
+```css
+:root {
+  --acme-accent: #d81e5b;
+}
+```
+
+```json
+{
+  "theme": { "accent": "#d81e5b" }
+}
+```
+
+</CodeTabs>
+
+## Dark mode
+
+Dark values apply automatically when the user's system prefers dark. To
+force a theme, set `"theme": { "mode": "dark" }`.

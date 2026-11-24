@@ -1,0 +1,46 @@
+---
+title: Configuration
+description: Every option in acme.config.json and when you'd change it.
+group: Guides
+order: 1
+---
+
+## The config file
+
+<Lead>
+  All project settings live in `acme.config.json` at the project root. Every
+  key is optional — Acme falls back to defaults for anything you leave out.
+</Lead>
+
+```json title="acme.config.json"
+{
+  "entry": "src/widget.ts",
+  "outDir": "dist",
+  "pipeline": ["compile", "minify"],
+  "targets": {
+    "preview": { "url": "https://preview.example.com" }
+  }
+}
+```
+
+## Options
+
+| Key | Type | Default | Description |
+|---|---|---|---|
+| `entry` | string | `src/widget.ts` | The widget's entry file |
+| `outDir` | string | `dist` | Where builds are written |
+| `pipeline` | string[] | `["compile", "minify"]` | Steps run on every build |
+| `targets` | object | `{}` | Named deploy destinations |
+
+## Environment overrides
+
+Any key can be overridden with an environment variable prefixed `ACME_`:
+
+```bash
+ACME_OUT_DIR=build acme build
+```
+
+<Callout title="Environment wins" tone="note">
+  When a key is set in both the file and the environment, the environment
+  value is used.
+</Callout>

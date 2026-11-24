@@ -1,0 +1,71 @@
+---
+title: Components
+description: A tour of every building block you can use inside a docs page.
+group: Guides
+order: 3
+tag: new
+---
+
+## Building blocks
+
+<Lead>
+  This page shows every component available inside a docs page. Copy any
+  snippet into your own `.mdx` file. Headings start at `##` — the page title
+  comes from the `title` in the frontmatter.
+</Lead>
+
+## Lead and badges
+
+`<Lead>` styles the opening paragraph. `<Badges>` adds small chips under it.
+
+<Badges items={["v1.0", "MIT", "Stable"]} />
+
+```mdx
+<Lead>Opening paragraph.</Lead>
+<Badges items={["v1.0", "MIT"]} />
+```
+
+## Callouts
+
+<Callout title="A note" tone="note">
+  Use `tone="note"` for helpful context.
+</Callout>
+
+<Callout title="A warning" tone="warn">
+  Use `tone="warn"` for anything that can go wrong.
+</Callout>
+
+## Code tabs
+
+<CodeTabs labels={["macOS", "Windows"]}>
+
+```bash
+brew install acme
+```
+
+```powershell
+winget install acme
+```
+
+</CodeTabs>
+
+## Steps
+
+<Steps>
+  <Step title="First">Do this.</Step>
+  <Step title="Second">Then this.</Step>
+</Steps>
+
+## Cards
+
+<CardGrid min={232}>
+  <Card title="Linked card" kicker="Kicker" meta="Cards with href are clickable" href="/docs/intro" />
+  <Card title="Static card" kicker="Kicker" meta="Cards without href are plain" />
+</CardGrid>
+
+## Tables and status
+
+| Feature | State |
+|---|---|
+| Search | <Status>shipped</Status> |
+| Versioning | <Status>planned</Status> |
