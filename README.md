@@ -1,6 +1,8 @@
 <div align="center">
 
-<img src="public/OpenDocera.svg" alt="OpenDocera logo" width="96" />
+<img src=".github/assets/opendocera-banner.webp" alt="OpenDocera: an open-source documentation site template" width="100%" />
+
+---
 
 # OpenDocera
 
