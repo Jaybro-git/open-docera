@@ -1,0 +1,295 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/* :is(.dark, .dark *) -- not just .dark * -- so dark: utilities also fire on
+   an element that itself carries .dark (e.g. <html>), not only descendants. */
+@custom-variant dark (&:is(.dark, .dark *));
+
+@theme inline {
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-serif: var(--font-plex-serif), Georgia, serif;
+  --font-heading: var(--font-sans);
+
+  /* Display and code typefaces (font-display / font-code utilities). */
+  --font-display: var(--font-manrope), system-ui, sans-serif;
+  --font-code: var(--font-gs-code), ui-monospace, monospace;
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Design tokens -- concepts shadcn has no slot for (hairlines,
+     glass, gradient washes, callout tints, code colors). Values live in
+     :root/.dark below; `inline` here makes these utilities emit var(--od-x)
+     rather than a resolved literal, which is what lets .dark flip them. */
+  --color-od-canvas: var(--od-canvas);
+  --color-od-surface-2: var(--od-surface-2);
+  --color-od-surface-3: var(--od-surface-3);
+  --color-od-panel: var(--od-panel);
+  --color-od-fg-strong: var(--od-fg-strong);
+  --color-od-fg-body: var(--od-fg-body);
+  --color-od-fg-tertiary: var(--od-fg-tertiary);
+  --color-od-fg-quaternary: var(--od-fg-quaternary);
+  --color-od-fg-faint: var(--od-fg-faint);
+  --color-od-accent: var(--od-accent);
+  --color-od-accent-fg: var(--od-accent-fg);
+  --color-od-accent-text: var(--od-accent-text);
+  --color-od-accent-hover: var(--od-accent-hover);
+  --color-od-accent-tint: var(--od-accent-tint);
+  --color-od-accent-line: var(--od-accent-line);
+  --color-od-accent-line-strong: var(--od-accent-line-strong);
+  --color-od-hairline: var(--od-hairline);
+  --color-od-hairline-soft: var(--od-hairline-soft);
+  --color-od-hairline-strong: var(--od-hairline-strong);
+  --color-od-hairline-hover: var(--od-hairline-hover);
+  --color-od-code-fg: var(--od-code-fg);
+  --color-od-code-border: var(--od-code-border);
+}
+
+/* Base link styling from the design. Must live in @layer base so Tailwind
+   utilities (text-white, text-[#4b5563], ...) still win over it. */
+@layer base {
+  /* The design sets no global line-height, so text without an explicit
+     leading uses `normal`. Tailwind's preflight would otherwise force 1.5
+     and make every button, nav link and heading taller than the design. */
+  html {
+    line-height: normal;
+    @apply font-sans;
+  }
+
+  a {
+    color: var(--od-accent-text);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--od-accent-hover);
+  }
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  ::selection {
+    background: var(--od-selection);
+  }
+
+  /* scrollbar-color needs `* { }`, not `:root`, to reach scroll containers
+     other than the document (sidebar nav, code blocks, etc). */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--od-scrollbar) transparent;
+  }
+}
+
+/* The docs shell used to collapse via raw max-width queries with !important,
+   on a 820/1180px scale that disagreed with the header's Tailwind md:. Both now
+   use the same lg/xl utilities -- see app/docs/docs-chrome.tsx. */
+
+/* TOC anchors and the search dialog both jump to headings; smooth is the
+   design intent, but respect a reduced-motion preference. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* rehype-pretty-code's theme map (next.config.ts) emits --shiki-light /
+   --shiki-dark per span plus data-theme="light dark" on <pre>/<code>, instead
+   of a resolved `color:`. Switch on .dark like every other token. Must beat
+   CodePre's own text-od-code-fg, hence @layer components. */
+@layer components {
+  code[data-theme*=" "],
+  code[data-theme*=" "] span {
+    color: var(--shiki-light);
+  }
+  .dark code[data-theme*=" "],
+  .dark code[data-theme*=" "] span {
+    color: var(--shiki-dark);
+  }
+}
+
+/* Brand palette. The four --od-brand-* values are NOT set here: the root
+   layout writes them from docs.config.ts (theme.palette), so the config file
+   is the single place to change the theme. Every accent token below is
+   derived from them with color-mix(), in both light and dark mode.
+
+     --od-brand-deep     darkest shade: hover text, callout titles, shadows
+     --od-brand          main accent: buttons, links, focus rings
+     --od-brand-bright   lighter accent: dark-mode links, highlights
+     --od-brand-neutral  muted companion: soft washes and lines */
+
+:root {
+  color-scheme: light;
+
+  /* shadcn core, realigned to the actual design colors instead of stock
+     grayscale -- the only consumers are components/ui/* (button, input,
+     textarea, input-group, command, dialog). */
+  --background: #fbfbfa;
+  --foreground: #14171c;
+  --card: #ffffff;
+  --card-foreground: #14171c;
+  --popover: #ffffff;
+  --popover-foreground: #14171c;
+  --primary: var(--od-brand);
+  --primary-foreground: #ffffff;
+  --secondary: #f7f7f6;
+  --secondary-foreground: #14171c;
+  --muted: #f7f7f6;
+  --muted-foreground: #4b5563;
+  --accent: #f0f0ef;
+  --accent-foreground: #14171c;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: rgba(20, 23, 28, 0.1);
+  --input: rgba(20, 23, 28, 0.12);
+  --ring: var(--od-brand);
+  --radius: 0.625rem;
+
+  /* Design tokens -- see the @theme inline block above for how
+     these become bg-od-, text-od-, and border-od- utilities. */
+  --od-canvas: #ffffff;
+  --od-surface-2: #f7f7f6;
+  --od-surface-3: #f0f0ef;
+  --od-panel: #0a0c11;
+  --od-fg-strong: #0a0c11;
+  --od-fg-body: #535a67;
+  --od-fg-tertiary: #6b7280;
+  --od-fg-quaternary: #9ca3af;
+  --od-fg-faint: #c9ccd1;
+  --od-accent: var(--od-brand);
+  --od-accent-fg: #ffffff;
+  --od-accent-text: var(--od-brand);
+  --od-accent-hover: var(--od-brand-deep);
+  --od-accent-tint: color-mix(in oklab, var(--od-brand) 6%, #ffffff);
+  --od-accent-line: color-mix(in oklab, var(--od-brand) 22%, transparent);
+  --od-accent-line-strong: color-mix(in oklab, var(--od-brand) 38%, transparent);
+  --od-hairline: rgba(10, 12, 17, 0.08);
+  --od-hairline-soft: rgba(10, 12, 17, 0.06);
+  --od-hairline-strong: rgba(20, 23, 28, 0.12);
+  --od-hairline-hover: rgba(20, 23, 28, 0.22);
+  --od-shadow-sm: rgba(20, 23, 28, 0.04);
+  --od-shadow-lift: color-mix(in oklab, var(--od-brand-deep) 40%, transparent);
+  --od-shadow-deep: color-mix(in oklab, var(--od-brand-deep) 55%, transparent);
+  --od-shadow-accent: color-mix(in oklab, var(--od-brand) 70%, transparent);
+  --od-glass: rgba(255, 255, 255, 0.6);
+  --od-glass-solid: rgba(255, 255, 255, 0.92);
+  --od-glass-border: rgba(255, 255, 255, 0.7);
+  --od-header-bg: rgba(251, 251, 250, 0.86);
+  --od-wash-a: color-mix(in oklab, var(--od-brand) 20%, transparent);
+  --od-wash-a-0: color-mix(in oklab, var(--od-brand) 0%, transparent);
+  --od-wash-b: color-mix(in oklab, var(--od-brand-bright) 22%, transparent);
+  --od-wash-b-0: color-mix(in oklab, var(--od-brand-bright) 0%, transparent);
+  --od-wash-c: color-mix(in oklab, var(--od-brand-neutral) 16%, transparent);
+  --od-wash-c-0: color-mix(in oklab, var(--od-brand-neutral) 0%, transparent);
+  --od-note-bg: color-mix(in oklab, var(--od-brand) 6%, #ffffff);
+  --od-note-border: color-mix(in oklab, var(--od-brand) 22%, transparent);
+  --od-note-bar: var(--od-brand);
+  --od-note-title: var(--od-brand-deep);
+  /* Warnings stay a fixed yellow, independent of the brand, so a warn
+     callout never looks like a note one whatever the palette is. */
+  --od-warn-bg: #fefce8;
+  --od-warn-border: rgba(161, 98, 7, 0.24);
+  --od-warn-bar: #a16207;
+  --od-warn-title: #713f12;
+  --od-code-fg: #26303f;
+  --od-code-border: rgba(20, 23, 28, 0.13);
+  --od-selection: color-mix(in oklab, var(--od-brand-bright) 30%, #ffffff);
+  --od-scrollbar: rgba(20, 23, 28, 0.18);
+  --od-skeleton: rgba(20, 23, 28, 0.07);
+}
+
+.dark {
+  color-scheme: dark;
+
+  --background: #0a0c11;
+  --foreground: #f2f3f5;
+  --card: #14171c;
+  --card-foreground: #f2f3f5;
+  --popover: #14171c;
+  --popover-foreground: #f2f3f5;
+  --primary: var(--od-brand);
+  --primary-foreground: #ffffff;
+  --secondary: #1b1f27;
+  --secondary-foreground: #f2f3f5;
+  --muted: #1b1f27;
+  --muted-foreground: #9ca3af;
+  --accent: #1b1f27;
+  --accent-foreground: #f2f3f5;
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.14);
+  --ring: var(--od-brand-bright);
+
+  --od-canvas: #0a0c11;
+  --od-surface-2: #1b1f27;
+  --od-surface-3: #232833;
+  --od-panel: #14171c;
+  --od-fg-strong: #f7f8fa;
+  --od-fg-body: #a3abb8;
+  --od-fg-tertiary: #8b929c;
+  --od-fg-quaternary: #6f7885;
+  --od-fg-faint: #4a515c;
+  --od-accent: var(--od-brand);
+  --od-accent-fg: #ffffff;
+  --od-accent-text: var(--od-brand-bright);
+  --od-accent-hover: color-mix(in oklab, var(--od-brand-bright) 60%, #ffffff);
+  --od-accent-tint: color-mix(in oklab, var(--od-brand) 14%, transparent);
+  --od-accent-line: color-mix(in oklab, var(--od-brand-bright) 24%, transparent);
+  --od-accent-line-strong: color-mix(in oklab, var(--od-brand-bright) 44%, transparent);
+  --od-hairline: rgba(255, 255, 255, 0.09);
+  --od-hairline-soft: rgba(255, 255, 255, 0.06);
+  --od-hairline-strong: rgba(255, 255, 255, 0.14);
+  --od-hairline-hover: rgba(255, 255, 255, 0.28);
+  --od-shadow-sm: rgba(0, 0, 0, 0.5);
+  --od-shadow-lift: rgba(0, 0, 0, 0.6);
+  --od-shadow-deep: rgba(0, 0, 0, 0.72);
+  --od-shadow-accent: color-mix(in oklab, var(--od-brand) 50%, transparent);
+  --od-glass: rgba(20, 23, 28, 0.62);
+  --od-glass-solid: rgba(20, 23, 28, 0.94);
+  --od-glass-border: rgba(255, 255, 255, 0.1);
+  --od-header-bg: rgba(10, 12, 17, 0.86);
+  --od-wash-a: color-mix(in oklab, var(--od-brand) 34%, transparent);
+  --od-wash-a-0: color-mix(in oklab, var(--od-brand) 0%, transparent);
+  --od-wash-b: color-mix(in oklab, var(--od-brand-bright) 14%, transparent);
+  --od-wash-b-0: color-mix(in oklab, var(--od-brand-bright) 0%, transparent);
+  --od-wash-c: color-mix(in oklab, var(--od-brand-neutral) 13%, transparent);
+  --od-wash-c-0: color-mix(in oklab, var(--od-brand-neutral) 0%, transparent);
+  --od-note-bg: color-mix(in oklab, var(--od-brand) 14%, transparent);
+  --od-note-border: color-mix(in oklab, var(--od-brand-bright) 26%, transparent);
+  --od-note-bar: var(--od-brand-bright);
+  --od-note-title: color-mix(in oklab, var(--od-brand-bright) 55%, #ffffff);
+  --od-warn-bg: rgba(161, 98, 7, 0.16);
+  --od-warn-border: rgba(234, 179, 8, 0.28);
+  --od-warn-bar: #eab308;
+  --od-warn-title: #fde047;
+  --od-code-fg: #c9d1d9;
+  --od-code-border: rgba(255, 255, 255, 0.12);
+  --od-selection: color-mix(in oklab, var(--od-brand) 45%, transparent);
+  --od-scrollbar: rgba(255, 255, 255, 0.22);
+  --od-skeleton: rgba(255, 255, 255, 0.08);
+}
