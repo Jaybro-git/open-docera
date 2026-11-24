@@ -1,0 +1,78 @@
+---
+title: Quickstart
+description: Install Acme and ship your first widget in about five minutes.
+group: Get started
+order: 2
+---
+
+## Install Acme
+
+<Lead>
+  This page takes you from an empty folder to a deployed widget. You need
+  Node.js 20 or later and a terminal — nothing else.
+</Lead>
+
+<Badges items={["~5 minutes", "Node 20+", "npm · pnpm · yarn"]} />
+
+## Prerequisites
+
+<CardGrid min={232}>
+  <Card title="Node.js 20+" kicker="Required" meta="Check with node --version" />
+  <Card title="Git" kicker="Recommended" meta="Acme initializes a repo for you if it finds git" />
+</CardGrid>
+
+## Create a project
+
+<CodeTabs labels={["npm", "pnpm", "yarn"]}>
+
+```bash
+npm create acme@latest my-widget
+cd my-widget
+npm run dev
+```
+
+```bash
+pnpm create acme my-widget
+cd my-widget
+pnpm dev
+```
+
+```bash
+yarn create acme my-widget
+cd my-widget
+yarn dev
+```
+
+</CodeTabs>
+
+<Callout title="Windows tip" tone="note">
+  Keep the project at a short path such as `C:\dev\my-widget` to avoid
+  path-length limits in older tools.
+</Callout>
+
+## Ship your first widget
+
+<Steps>
+  <Step title="Open the dev server">
+    Visit `http://localhost:4000`. The page reloads every time you save a
+    file in `src/`.
+  </Step>
+  <Step title="Edit the widget">
+    Open `src/widget.ts` and change the greeting. The preview updates
+    instantly.
+  </Step>
+  <Step title="Build it">
+    Run `acme build`. Output lands in `dist/`, ready to deploy.
+  </Step>
+  <Step title="Deploy">
+    Run `acme deploy --target preview` to get a shareable URL. See
+    [Configuration](/docs/configuration) to add your own targets.
+  </Step>
+</Steps>
+
+## Default ports
+
+| Service | URL |
+|---|---|
+| Dev server | `http://localhost:4000` |
+| Inspector | `http://localhost:4001` |

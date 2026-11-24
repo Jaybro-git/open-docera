@@ -1,0 +1,46 @@
+---
+title: Core concepts
+description: Widgets, pipelines and targets, and how they fit together.
+group: Get started
+order: 3
+---
+
+## The three building blocks
+
+<Lead>
+  Everything in Acme is one of three things: a **widget** you write, a
+  **pipeline** that transforms it, and a **target** it ships to. Once these
+  click, the rest of the docs is detail.
+</Lead>
+
+## Widgets
+
+A widget is a single entry file plus whatever it imports. Acme treats the
+entry file as the unit of build, test and deploy.
+
+```ts title="src/widget.ts"
+export default function widget(name: string) {
+  return `Hello, ${name}!`;
+}
+```
+
+## Pipelines
+
+A pipeline is an ordered list of steps. Each step receives the output of the
+one before it.
+
+| Step | What it does | Default |
+|---|---|---|
+| `compile` | Transpiles TypeScript to JavaScript | <Status>on</Status> |
+| `minify` | Shrinks the output bundle | <Status>on in build</Status> |
+| `test` | Runs your test files | <Status>off</Status> |
+
+## Targets
+
+A target is a named place to deploy: `preview`, `staging`, `production`, or
+anything you define. Targets live in `acme.config.json`.
+
+<Callout title="Targets never share state" tone="warn">
+  Deploying to `preview` cannot affect `production`. If you need shared
+  secrets, set them per target.
+</Callout>
